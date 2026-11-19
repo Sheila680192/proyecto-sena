@@ -1,11 +1,12 @@
-
+%%writefile PLANDEMEJORA.py
 
 import streamlit as st
 import requests
 import random
 
 # Info de la API
-API_KEY = ("sk-57fdc94aa828429aad3d0ac614dcbc36")
+API_KEY = import os
+API_KEY = os.getenv("sk-57fdc94aa828429aad3d0ac614dcbc36")
 API_URL = "https://api.deepseek.com/v1/chat/completions"
 
 # Instrucciones del asistente
@@ -26,6 +27,7 @@ Eres un asistente educativo especializado únicamente en:
 - DTN (Delay Tolerant Networking)
 - Protocolos CCSDS
 - Telemetría y telecontrol
+- Bandas VHF/UHF, S, X o Ka
 
 Normas:
 
@@ -33,8 +35,8 @@ Normas:
 2. Si la pregunta no pertenece al área aeroespacial, debes rechazarla educadamente.
 3. Responde de forma clara y argumentativa.
 4. Utiliza ejemplos cuando sea apropiado.
-5. Mantén respuestas cortas para optimizar el consumo de tokens.
-6. Limita cada respuesta a aproximadamente 150 palabras.
+5. Mantén respuestas cortas y completas para optimizar el consumo de tokens.
+6. Limita cada respuesta a aproximadamente 150 palabras brindandolas completas.
 """
 #Cosnsumo de tokens
 MAX_HISTORIAL = 10
@@ -207,14 +209,31 @@ with tab1:
     )
 
     if st.button("Consultar"):
-            # Obtener respuesta del modelo
-            with st.chat_message("assistant"):
-                with st.spinner("Consultando al asistente aeroespacial..."):
-                    respuesta = preguntar_deepseek(
-                        pregunta,
-                        st.session_state.historial[-(MAX_HISTORIAL * 2):]
-                    )  # <--- ¡Asegúrate de que este paréntesis de cierre esté aquí!
-                st.write(respuesta)
+
+        if pregunta:
+
+            respuesta = preguntar_deepseek(
+                pregunta,
+                st.session_state.historial[-MAX_HISTORIAL:]
+            )
+
+            st.session_state.historial.append(
+                {
+                    "role": "user",
+                    "content": pregunta
+                }
+            )
+
+            st.session_state.historial.append(
+                {
+                    "role": "assistant",
+                    "content": respuesta
+                }
+            )
+
+            st.subheader("Respuesta")
+            st.write(respuesta)
+
 # CONSTELACIÓN
 with tab2:
 
