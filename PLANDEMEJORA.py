@@ -208,31 +208,14 @@ with tab1:
     )
 
     if st.button("Consultar"):
-
-        if pregunta:
-
-            respuesta = preguntar_deepseek(
-                pregunta,
-                st.session_state.historial[-MAX_HISTORIAL:]
-            )
-
-            st.session_state.historial.append(
-                {
-                    "role": "user",
-                    "content": pregunta
-                }
-            )
-
-            st.session_state.historial.append(
-                {
-                    "role": "assistant",
-                    "content": respuesta
-                }
-            )
-
-            st.subheader("Respuesta")
-            st.write(respuesta)
-
+            # Obtener respuesta del modelo
+            with st.chat_message("assistant"):
+                with st.spinner("Consultando al asistente aeroespacial..."):
+                    respuesta = preguntar_deepseek(
+                        pregunta,
+                        st.session_state.historial[-(MAX_HISTORIAL * 2):]
+                    )  # <--- ¡Asegúrate de que este paréntesis de cierre esté aquí!
+                st.write(respuesta)
 # CONSTELACIÓN
 with tab2:
 
