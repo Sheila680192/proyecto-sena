@@ -36,10 +36,11 @@ Normas:
 4. Utiliza ejemplos cuando sea apropiado.
 5. Mantén respuestas cortas y completas para optimizar el consumo de tokens.
 6. Limita cada respuesta a aproximadamente 150 palabras brindandolas completas.
+7. Sé conciso pero asegúrate de que tus respuestas estén completas. Nunca dejes una frase o una lista a medias.
 """
 #Cosnsumo de tokens
 MAX_HISTORIAL = 10
-MAX_TOKENS = 200
+MAX_TOKENS = 500
 
 
 def preguntar_deepseek(mensaje, historial):
