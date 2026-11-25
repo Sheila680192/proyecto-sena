@@ -5,7 +5,7 @@ import requests
 import random
 
 # Info de la API
-API_KEY = (("sk-57fdc94aa828429aad3d0ac614dcbc36")")
+API_KEY = ("sk-57fdc94aa828429aad3d0ac614dcbc36")
 API_URL = "https://api.deepseek.com/v1/chat/completions"
 
 # Instrucciones del asistente
